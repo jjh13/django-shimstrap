@@ -1,6 +1,8 @@
-from django.core.urlresolvers import RegexURLResolver
+from django.core.urlresolvers import RegexURLResolver, RegexURLPattern
 from django.core.exceptions import ImproperlyConfigured
+from django.utils import six
 import re
+
 
 class Singleton:
     """
@@ -55,14 +57,14 @@ class AjaxTracker(object):
         if default is None:
             default = url
 
-            if default[0] == '$':
+            if default[0] == '^':
                 default = default[1:]
 
-            if default[-1] == '^':
+            if default[-1] == '$':
                 default = default[:-1]
 
             if not self.url_regex.match(default):
-                raise TypeError("Couldn't construct default url from regex, please specify default url")
+                raise ImproperlyConfigured("Couldn't construct default url from regex, please specify default url")
 
         self.url_map[ajax_name] = default
         if group is not None:
@@ -77,4 +79,8 @@ def ajax_url(regex, view, ajax_name, default=None, group=None, kwargs=None):
         AjaxTracker.Instance().add_ajax_url(regex, ajax_name, default, group)
         return RegexURLResolver(regex, urlconf_module, kwargs, app_name=app_name, namespace=namespace)
 
-    raise ImproperlyConfigured('Invalid view specified (%s). Are you passing the callable?' % view)
+    if isinstance(view, six.string_types):
+        raise ImproperlyConfigured('Invalid view specified (%s). Are you passing the callable?' % view)
+
+    AjaxTracker.Instance().add_ajax_url(regex, ajax_name, default, group)
+    return RegexURLPattern(regex, view, kwargs, ajax_name)
