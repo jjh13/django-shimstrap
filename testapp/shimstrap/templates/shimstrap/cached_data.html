@@ -1,0 +1,5 @@
+{% for data in _ss_cache %}
+<div class="_dss_preload" id="{{data.id}}" style="display:none">
+    {{data.cached_data|escape}}
+</div>
+{% endfor %}

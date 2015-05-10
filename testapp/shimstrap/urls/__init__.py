@@ -53,6 +53,9 @@ class AjaxTracker(object):
         self.group_map = {}
         self.url_regex = re.compile(r'[a-zA-Z0-9\\/]')
 
+    def has_name(self, name):
+        return name in self.url_map
+
     def add_ajax_url(self, url, ajax_name, default, group):
         if default is None:
             default = url
