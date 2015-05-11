@@ -37,6 +37,9 @@
 
         urlMap[url] = true;
         server.respondWith(method, url,  [200, { "Content-Type": type}, cached_data]);
+
+        // Cleanup the dom
+        document.getElementById(hash_id).remove();
     }
 
     // Wonderful, we don't need to export anything once this has run.
