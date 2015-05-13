@@ -25,6 +25,11 @@
         sinon_open.call(this, method, url, a2, a3);
     };
 
+    /* Create lookups from data in some */
+    var element = document.getElementById("_dss_map_dict");
+    var urlmap = JSON.parse(element.innerText);
+
+
     /* Cache lookups */
     var elements = document.getElementsByClassName("_dss_preload");
     for(var i=0; i < elements.length; i++) {
@@ -36,9 +41,9 @@
         var hash_id = element.id;
 
         urlMap[url] = true;
-        server.respondWith(method, url,  [200, { "Content-Type": type}, cached_data]);
+        server.respondWith(method, url,  [200, {"Content-Type": type}, cached_data]);
 
-        // Cleanup the dom
+        /* Cleanup the dom */
         document.getElementById(hash_id).remove();
     }
 

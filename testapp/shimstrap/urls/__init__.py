@@ -56,6 +56,28 @@ class AjaxTracker(object):
     def has_name(self, name):
         return name in self.url_map
 
+    @staticmethod
+    def _reverse(name):
+        """
+        Reverses name to a url of the form /url/{}/whatever/{}
+
+        Where the {} are the regexp groups.
+        """
+        pass
+
+    def map_to_ajax(self, name):
+        """
+        This function will make sure that 'name' will get mapped
+        to @name in the JS client, if it isn't already.
+
+        @name{param1}{param2}
+
+        :param name:
+        :param ajax_name:
+        :return:
+        """
+        pass
+
     def add_ajax_url(self, url, ajax_name, default, group):
         if default is None:
             default = url
